@@ -257,7 +257,7 @@ const Dashboard = () => {
               //value: recent?.daily?.volume
               //  ? `${lookup(recent?.daily?.volume, USDC)}`
               //  : "",
-              value: ((currentPrice * 0.25 * luna2Price)/luna1Price).toString(),
+              value: ((currentPrice * luna2Price)/luna1Price).toString(),
               isCurrency: false,
               decimals: 6,
               /*variation: parseFloat(

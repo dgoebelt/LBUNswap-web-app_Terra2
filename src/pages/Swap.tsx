@@ -11,20 +11,12 @@ export enum Type {
   "WITHDRAW" = "withdraw",
 }
 
-// const tabs = [
-//   { type: Type.SWAP, slang: "swap", name: "Swap" },
-//   { type: Type.PROVIDE, slang: "provide", name: "Provide" },
-//   { type: Type.WITHDRAW, slang: "withdraw", name: "Withdraw" },
-// ];
-
 const Swap = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const type = searchParams.get("type") as Type
   const tabs = {
     tabs: [
       { name: Type.SWAP, title: "Swap" },
-      /*{ name: Type.PROVIDE, title: "Provide" }, rbh
-        { name: Type.WITHDRAW, title: "Withdraw" }, rbh*/
     ],
     selectedTabName: type,
   }
