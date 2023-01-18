@@ -1,0 +1,82 @@
+@import "src/styles/mixins.module";
+@import "src/styles/variables.module";
+
+.header {
+  width: 100%;
+  height: auto;
+  position: fixed;
+  left: 0;
+  top: 0;
+  padding: 16px 0;
+  @include mobile {
+    background-color: #694201; //$realblue;
+  }
+  z-index: 5000;
+  transition: padding 0.125s ease-in-out;
+  overflow: visible;
+  margin-bottom: 50px;
+
+  &::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    left: 0;
+    bottom: 0;
+    background-color: #ffffff;
+    opacity: 0.15;
+
+    @include mobile {
+      bottom: 0;
+    }
+  }
+
+  & .container {
+    position: relative;
+    left: 0;
+    top: 0;
+  }
+
+  & .radio-group {
+    display: flex;
+    gap: 10px;
+  }
+
+  & .wrapper,
+  & section {
+    @include flex(flex-start);
+  }
+}
+
+@include mobile {
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 16px 0;
+    height: 64px;
+    z-index: 4850;
+
+    & .support {
+      transition: right 0.2s ease-in-out, opacity 0.2s ease-in-out;
+      position: fixed;
+      right: 30px;
+      bottom: 30px;
+      width: auto;
+      height: auto;
+
+      .scrolled & {
+        opacity: 0;
+        right: -48px;
+
+        pointer-events: none;
+      }
+    }
+  }
+}
+
+.container {
+  @include desktop {
+    @include flex(space-between);
+  }
+}
