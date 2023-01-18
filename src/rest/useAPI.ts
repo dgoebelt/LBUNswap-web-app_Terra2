@@ -192,11 +192,6 @@ const useAPI = () => {
         '{"name" : "LUNC Burn Token", "symbol": "LBUN", "protocol" : "LBUN Project", "decimals" : 6, "contract_addr": "terra1ulr678u52qwt27dsgxrftthq20a8v8t9s8f3hz5z8s62wsu6rslqyezul4", "icon" : "/images/others/LBUN.svg", "verified" : true}'
       )
     )
-    res.push(
-      JSON.parse(
-        '{"name" : "LUNC Burn Token", "symbol": "LBUN", "protocol" : "LBUN Project", "decimals" : 6, "contract_addr": "terra1ulr678u52qwt27dsgxrftthq20a8v8t9s8f3hz5z8s62wsu6rslqyezul4", "icon" : "/images/others/LBUN.svg", "verified" : true}'
-      )
-    )
     //https://raw.githubusercontent.com/terra-money/assets/master/icon/svg/Luna.svg
     //https:\/\/raw.githubusercontent.com\/ZuluSpl0it\/strata\/master\/lbun_icon.svg
     return res

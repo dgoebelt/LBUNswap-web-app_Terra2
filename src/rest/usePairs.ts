@@ -134,7 +134,57 @@ const usePairs = () => {
       }
 
       const fetchPairs = async () => {
-        return undefined
+        const res: PairsResult = await loadPairs()
+        const pairs = await Promise.all(
+          res.pairs.map(async (pairResult: PairResult) => {
+            try {
+              const tokenInfo1 = await getTokenInfo(pairResult.asset_infos[0])
+              const tokenInfo2 = await getTokenInfo(pairResult.asset_infos[1])
+              if (tokenInfo1 === undefined || tokenInfo2 === undefined) {
+                return
+              }
+
+              const lpTokenInfo = await getTokenInfo({
+                token: { contract_addr: pairResult.liquidity_token },
+              })
+
+              lpTokenInfos.set(pairResult.liquidity_token, [
+                tokenInfo1,
+                tokenInfo2,
+              ])
+
+              lpTokenInfo &&
+                tokenInfos.set(pairResult.liquidity_token, {
+                  contract_addr: pairResult.liquidity_token,
+                  name: lpTokenInfo.name,
+                  symbol: lpTokenInfo.symbol,
+                  decimals: lpTokenInfo.decimals,
+                  icon: "",
+                  verified: false,
+                })
+
+              let pair: Pair = {
+                contract: pairResult.contract_addr,
+                pair: [tokenInfo1, tokenInfo2],
+                liquidity_token: pairResult.liquidity_token,
+              }
+
+              return pair
+            } catch (error) {
+              console.error(error)
+            }
+            return undefined
+          })
+        )
+
+        if (pairs?.length) {
+          setResult({
+            pairs: pairs.filter((pair) => !!pair) as Pair[],
+          })
+        } else {
+          setNoPairExists(true)
+        }
+        setIsLoading(false)
       }
 
       fetchTokensInfo().then(() => fetchPairs())
