@@ -46,7 +46,7 @@ const removeDuplicatesFilter = (
 ) => array.indexOf(value) === index
 
 export default (config: Config, pairs: Pair[], type: string) => {
-  console.log(Error("Trace me... who called me..."))
+  console.log(Error('Trace me... who called me...'))
   const { isLoading: isPairLoading } = usePairs()
 
   const {
@@ -59,10 +59,10 @@ export default (config: Config, pairs: Pair[], type: string) => {
   } = config
   const [isOpen, setIsOpen] = useState(false)
   const toggle = () => (isOpen ? handleSelect(selected) : setIsOpen(!isOpen))
-
+  
   /* select asset */
   const handleSelect = (asset: string, isUnable?: boolean) => {
-    //onSelect(asset, isUnable) rbh*/
+    //onSelect(asset, isUnable) rbh*/ 
     setIsOpen(false)
   }
 
@@ -111,6 +111,29 @@ export default (config: Config, pairs: Pair[], type: string) => {
         return
       }
 
+      if (type === Type.PROVIDE) {
+        const assetItemMap: Set<string> = new Set<string>()
+        pairs.forEach((pair) => {
+          if (
+            oppositeValue === pair.pair[0].contract_addr &&
+            !assetItemMap.has(pair.pair[1].contract_addr)
+          ) {
+            assetItemMap.add(pair.pair[1].contract_addr)
+          }
+
+          if (
+            oppositeValue === pair.pair[1].contract_addr &&
+            !assetItemMap.has(pair.pair[0].contract_addr)
+          ) {
+            assetItemMap.add(pair.pair[0].contract_addr)
+          }
+        })
+
+        if (!isAborted) {
+          setAvailableAddressList(Array.from(assetItemMap.values()))
+        }
+        return
+      }
       setAvailableAddressList(addressList)
     }
 
@@ -119,7 +142,14 @@ export default (config: Config, pairs: Pair[], type: string) => {
     return () => {
       isAborted = true
     }
-  }, [addressList, oppositeValue, pairs, type, isPairLoading])
+  }, [
+    addressList,
+    loadSwappableTokenAddresses,
+    oppositeValue,
+    pairs,
+    type,
+    isPairLoading,
+  ])
 
   const assetList = useMemo<SwapTokenAsset[] | undefined>(() => {
     if (!availableAddressList || !addressList) {
@@ -135,6 +165,22 @@ export default (config: Config, pairs: Pair[], type: string) => {
       })
       .map((item) => {
         const isUnable = !availableAddressList?.includes(item)
+
+        if (type === Type.WITHDRAW) {
+          const tokenInfoList = lpTokenInfos.get(item)
+          return {
+            symbol: tokenInfoList
+              ? tokenInfoList[0].symbol + "-" + tokenInfoList[1].symbol
+              : "",
+            name: "",
+            contract_addr: item,
+            icon: tokenInfoList
+              ? [tokenInfoList[0].icon, tokenInfoList[1].icon]
+              : ["", ""],
+            verified: false,
+            isUnable,
+          }
+        }
 
         const tokenInfo = tokenInfos.get(item)
         return {
@@ -152,6 +198,27 @@ export default (config: Config, pairs: Pair[], type: string) => {
   return {
     isOpen,
     button: <SwapSelectToken {...select} />,
-    assets: "", //replaced with empty string
-  }
+    assets: "" //replaced with empty string
+    /*(
+      <Modal
+        role="modal"
+        isOpen={isOpen}
+        open={() => setIsOpen(true)}
+        close={() => setIsOpen(false)}
+        isCloseBtn={true}
+      >
+        <SwapCard logoTitle={MESSAGE.Form.Button.SelectToken}>
+          <SwapTokens
+            {...config}
+            isFrom={isFrom}
+            selected={selected}
+            onSelect={handleSelect}
+            type={type}
+            assetList={assetList}
+          />
+        </SwapCard>
+    </Modal> 
+    ), rbh */
+  } 
+ 
 }

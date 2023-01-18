@@ -26,7 +26,6 @@ import { TooltipIcon } from "components/Tooltip"
 import Tooltip from "lang/Tooltip.json"
 import useGasPrice from "rest/useGasPrice"
 import { Coins, CreateTxOptions } from "@terra-money/terra.js"
-import { MsgExecuteContract } from "@terra-money/terra.js"
 import { Type } from "pages/Swap"
 import usePool from "rest/usePool"
 import { insertIf, isNativeToken } from "libs/utils"
@@ -91,7 +90,6 @@ const SwapForm = ({ type, tabs }: { type: Type; tabs: TabViewProps }) => {
 
   const taxRate = 0.048
 
-  const { generateContractMessages } = useAPI()
   const { fee } = useNetwork()
   const walletAddress = useAddress()
   const { post: terraExtensionPost } = useWallet()
@@ -149,7 +147,6 @@ const SwapForm = ({ type, tabs }: { type: Type; tabs: TabViewProps }) => {
   } = form
   const [isReversed, setIsReversed] = useState(false)
   const formData = watch()
- 
 
   useEffect(() => {
     if (!from && !to) {
@@ -406,28 +403,6 @@ const SwapForm = ({ type, tabs }: { type: Type; tabs: TabViewProps }) => {
                 4,
                 true
               )} USD = 1 ${formData[Key.symbol1]}`,
-      }),
-      ...insertIf(type === Type.PROVIDE, {
-        title: (
-          <TooltipIcon content={Tooltip.Pool.LPfromTx}>LP from Tx</TooltipIcon>
-        ),
-        content: `${lookup(poolResult?.LP, lpContract)} LP`,
-      }),
-      ...insertIf(type === Type.WITHDRAW, {
-        title: "LP after Tx",
-        content: `${lookup(poolResult?.LP, lpContract)} LP`,
-      }),
-      ...insertIf(type !== Type.SWAP, {
-        title: (
-          <TooltipIcon content={Tooltip.Pool.PoolShare}>
-            Pool Share after Tx
-          </TooltipIcon>
-        ),
-        content: (
-          <Count format={(value) => `${percent(value)}`}>
-            {poolResult?.afterPool}
-          </Count>
-        ),
       }),
       {
         title: <TooltipIcon content={Tooltip.Swap.TxFee}>Tx Fee</TooltipIcon>,
@@ -748,7 +723,6 @@ const SwapForm = ({ type, tabs }: { type: Type; tabs: TabViewProps }) => {
       terra,
       walletAddress,
       terraExtensionPost,
-      generateContractMessages,
       from,
       to,
       slippageTolerance,
@@ -957,10 +931,10 @@ const SwapForm = ({ type, tabs }: { type: Type; tabs: TabViewProps }) => {
             <div>
               <div
                 style={{
-                  paddingTop: "20px"
+                  paddingTop: "20px",
                 }}
               >
-                <p style={{color: "#000"}}>
+                <p style={{ color: "#000" }}>
                   The displaying number is the simulated result and can be
                   different from the actual swap rate. Trade at your own risk.
                 </p>
@@ -971,9 +945,7 @@ const SwapForm = ({ type, tabs }: { type: Type; tabs: TabViewProps }) => {
                       children: type || "Submit",
                       loading: formState.isSubmitting,
                       disabled:
-                        !formState.isValid || 
-
-                        
+                        !formState.isValid ||
                         formState.isValidating ||
                         simulationContents?.length <= 0 ||
                         (type === Type.SWAP &&

@@ -2,7 +2,7 @@
   "name": "lbunswap-web-app",
   "version": "1.0.0",
   "homepage": "http://lbunproject.duckdns.org/",
-  "repository": "https://github.com/lbunproject/LBUNswap_terra2",
+  "repository": "https://github.com/lbunproject/LBUNswap-web-app_Terra2",
   "author": "DELIGHT <member@delightlabs.io>",
   "license": "Apache-2.0",
   "dependencies": {
