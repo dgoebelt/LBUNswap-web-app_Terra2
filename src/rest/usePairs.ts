@@ -42,19 +42,28 @@ interface TokenResult {
   verified: boolean
 }
 
-export let tokenInfos: Map<string, TokenInfo> = new Map<string, TokenInfo>([
+export let tokenInfos: Map < string, TokenInfo >  = new Map < string, TokenInfo > ([
   [
-    LUNA,
-    {
-      contract_addr: ULUNA,
-      symbol: LUNA,
-      name: ULUNA,
-      decimals: 6,
-      icon: "",
-      verified: true,
-    },
+      LUNA, {
+          contract_addr: ULUNA,
+          symbol: LUNA,
+          name: ULUNA,
+          decimals: 6,
+          icon: "https://raw.githubusercontent.com/terra-money/assets/master/icon/svg/Luna.svg",
+          verified: true,
+      },
   ],
 ])
+
+tokenInfos.set("LBUN", {
+"name": "LUNC Burn Token",
+"symbol": "LBUN",
+"decimals": 6,
+"contract_addr": "terra1ulr678u52qwt27dsgxrftthq20a8v8t9s8f3hz5z8s62wsu6rslqyezul4",
+"icon": "https://raw.githubusercontent.com/lbunproject/LBUNswap-web-app_Terra2/ebcaed74119e206d9b84d3b44c4af00941c67549/public/images/others/LBUN.svg",
+"verified": true
+})
+
 
 export let lpTokenInfos: Map<string, TokenInfo[]> = new Map<
   string,

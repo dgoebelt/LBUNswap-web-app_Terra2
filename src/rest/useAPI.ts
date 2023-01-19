@@ -182,18 +182,9 @@ const useAPI = () => {
   }, [service, factory, getURL])
 
   const loadTokens = useCallback(async (): Promise<TokenResult[]> => {
-    //const url = `${service}/tokens`
-    //const res: TokenResult[] = (await axios.get(url)).data
-    let res = JSON.parse(
-      '{"name": "uluna","symbol": "Luna","contract_addr": "uluna","icon": "https://raw.githubusercontent.com/terra-money/assets/master/icon/svg/Luna.svg","verified": true,"decimals": 6}'
-    )
-    res.push(
-      JSON.parse(
-        '{"name" : "LUNC Burn Token", "symbol": "LBUN", "protocol" : "LBUN Project", "decimals" : 6, "contract_addr": "terra1ulr678u52qwt27dsgxrftthq20a8v8t9s8f3hz5z8s62wsu6rslqyezul4", "icon" : "/images/others/LBUN.svg", "verified" : true}'
-      )
-    )
-    //https://raw.githubusercontent.com/terra-money/assets/master/icon/svg/Luna.svg
-    //https:\/\/raw.githubusercontent.com\/ZuluSpl0it\/strata\/master\/lbun_icon.svg
+    const url = `${service}/tokens`
+    const res: TokenResult[] = (await axios.get(url)).data
+    res.push(JSON.parse('{"name" : "LUNC Burn Token", "symbol": "LBUN", "protocol" : "LBUN Project", "decimals" : 6, "contract_addr": "terra1ulr678u52qwt27dsgxrftthq20a8v8t9s8f3hz5z8s62wsu6rslqyezul4", "icon" : "https://raw.githubusercontent.com/lbunproject/LBUNswap-web-app_Terra2/ebcaed74119e206d9b84d3b44c4af00941c67549/public/images/others/LBUN.svg", "verified" : true}'))
     return res
   }, [service])
 

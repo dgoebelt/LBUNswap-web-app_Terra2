@@ -46,7 +46,7 @@ const removeDuplicatesFilter = (
 ) => array.indexOf(value) === index
 
 export default (config: Config, pairs: Pair[], type: string) => {
-  console.log(Error('Trace me... who called me...'))
+  //console.log(Error('Trace me... who called me...'))
   const { isLoading: isPairLoading } = usePairs()
 
   const {

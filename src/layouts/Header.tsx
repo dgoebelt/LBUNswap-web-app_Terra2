@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-//import { ReactComponent as Logo } from "../images/TerraswapLogo.svg" - rbh
 import { ReactComponent as Logo } from "../images/LBUN_LogoName.svg"
 import Container from "../components/Container"
 import Connect from "./Connect"

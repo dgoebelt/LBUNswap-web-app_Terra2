@@ -52,7 +52,6 @@ const SwapSelectToken: FC<PropsWithChildren<Props>> = ({
           ? formatTokenName?.(symbol) ?? lookupSymbol(symbol)
           : MESSAGE.Form.Button.SelectToken}
       </div>
-      {/*<Icon name={isOpen ? "expand_less" : "expand_more"} size={24} /> rbh*/}
     </button>
   )
 }
