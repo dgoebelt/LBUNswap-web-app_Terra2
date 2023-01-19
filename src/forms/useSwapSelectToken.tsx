@@ -70,7 +70,7 @@ export default (config: Config, pairs: Pair[], type: string) => {
 
   const [addressList, setAddressList] = useState<string[]>([])
   const [availableAddressList, setAvailableAddressList] = useState<string[]>()
-  const { loadSwappableTokenAddresses } = useAPI()
+  //const { loadSwappableTokenAddresses } = useAPI()
 
   useEffect(() => {
     if (type === Type.SWAP || type === Type.PROVIDE) {
@@ -100,7 +100,7 @@ export default (config: Config, pairs: Pair[], type: string) => {
         setAvailableAddressList(addressList)
         return
       }
-
+/*
       if (type === Type.SWAP) {
         const res = await loadSwappableTokenAddresses(oppositeValue)
         if (Array.isArray(res)) {
@@ -109,7 +109,7 @@ export default (config: Config, pairs: Pair[], type: string) => {
           }
         }
         return
-      }
+      } */
 
       if (type === Type.PROVIDE) {
         const assetItemMap: Set<string> = new Set<string>()
@@ -143,13 +143,12 @@ export default (config: Config, pairs: Pair[], type: string) => {
       isAborted = true
     }
   }, [
-    addressList,
-    loadSwappableTokenAddresses,
+    /*addressList,
     oppositeValue,
     pairs,
     type,
-    isPairLoading,
-  ])
+    isPairLoading,*/
+  ]) //loadSwappableTokenAddresses
 
   const assetList = useMemo<SwapTokenAsset[] | undefined>(() => {
     if (!availableAddressList || !addressList) {

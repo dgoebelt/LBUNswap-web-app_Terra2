@@ -1,8 +1,3 @@
-//import React from "react"
-//import { useEffect, useMemo, useState } from "react"
-
-
-
 function About_website() {
 
   return (
@@ -27,40 +22,40 @@ function About_website() {
       <link rel="stylesheet" href="../index.scss" />
       <title>LUNC Burn Token</title>
       {/* Main header */}
-      <header class="main-header">
-        <div class="header-container">
+      <header className="main-header">
+        <div className="header-container">
           {/* Header navbar */}
           <nav className="main-header-navbar">
             <img
               src="/images/LogoName_big.png"
               alt="LBUN logo"
-              class="main-header-navbar__logo"
+              className="main-header-navbar__logo"
             />
           </nav>
-          <nav class="main-header-navbar">
-            <ul class="main-header-navbar__nav">
-              <li class="main-header-navbar__nav__item">
-                <a href="https://lbunproject.github.io/LBUN_whitepaper_terra2.github.io/?page=1" class="main-header-navbar__nav__link">
+          <nav className="main-header-navbar">
+            <ul className="main-header-navbar__nav">
+              <li className="main-header-navbar__nav__item">
+                <a href="https://lbunproject.github.io/LBUN_whitepaper_terra2.github.io/?page=1" className="main-header-navbar__nav__link">
                   Whitepaper
                 </a>
               </li>
-              <li class="main-header-navbar__nav__item">
-                <a href="#components" class="main-header-navbar__nav__link">
+              <li className="main-header-navbar__nav__item">
+                <a href="#components" className="main-header-navbar__nav__link">
                   Elements
                 </a>
               </li>
-              <li class="main-header-navbar__nav__item">
-                <a href="#features" class="main-header-navbar__nav__link">
+              <li className="main-header-navbar__nav__item">
+                <a href="#features" className="main-header-navbar__nav__link">
                   Features
                 </a>
               </li>
-              <li class="main-header-navbar__nav__item">
-                <a href="#team" class="main-header-navbar__nav__link">
+              <li className="main-header-navbar__nav__item">
+                <a href="#team" className="main-header-navbar__nav__link">
                   Team
                 </a>
               </li>
             </ul>
-            <div class="main-header-navbar__login"></div>
+            <div className="main-header-navbar__login"></div>
           </nav>
         </div>
       </header>
