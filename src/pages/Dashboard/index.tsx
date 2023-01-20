@@ -132,11 +132,9 @@ const Dashboard = () => {
 
     return res
   })
-  const [searchKeyword, setSearchKeyword] = useState("")
   const [selectedVolumeLength, setSelectedVolumeLength] = useState(7)
   const [selectedLiquidityLength, setSelectedLiquidityLength] = useState(7)
 
-  const [tableVisibleFlag, setTableVisibleFlag] = useState(false)
   const [autoRefreshTicker, setAutoRefreshTicker] = useState(false)
 
   let [currentSupply, setCurrentSupply] = useState(0)
@@ -238,6 +236,9 @@ const Dashboard = () => {
     )
   }, [pairs])
 
+
+  const dataForChild = [(currentPrice * luna2Price), currentSupply]
+
   return (
     <Wrapper>
       <Container>
@@ -245,59 +246,27 @@ const Dashboard = () => {
           data={[
             {
               label: "LBUN / LUNC",
-              //value: recent?.daily?.volume
-              //  ? `${lookup(recent?.daily?.volume, USDC)}`
-              //  : "",
               value: ((currentPrice * luna2Price)/luna1Price).toString(),
               isCurrency: false,
               decimals: 6,
-              /*variation: parseFloat(
-                (
-                  parseFloat(recent?.daily?.volumeIncreasedRate || "0") * 100
-                ).toFixed(2)
-              ),*/
             },
             {
               label: "LBUN / USD",
-              //value: recent?.daily?.volume
-              //  ? `${lookup(recent?.daily?.volume, USDC)}`
-              //  : "",
               value: (currentPrice * luna2Price).toString(),
               isCurrency: true,
               decimals: 2,
-              /*variation: parseFloat(
-                (
-                  parseFloat(recent?.daily?.volumeIncreasedRate || "0") * 100
-                ).toFixed(2)
-              ),*/
             },
             {
               label: "Circulating Supply",
-              //value: recent?.weekly?.volume
-              //  ? `${lookup(recent?.weekly?.volume, USDC)}`
-              //  : "",
               value: `${currentSupply}`,
               isCurrency: false,
               decimals: 6,
-              /*variation: parseFloat(
-                (
-                  parseFloat(recent?.weekly?.volumeIncreasedRate || "0") * 100
-                ).toFixed(2)
-              ),*/
             },
             {
               label: "Market Cap",
-              //value: recent?.weekly?.volume
-              //  ? `${lookup(recent?.weekly?.volume, USDC)}`
-              //  : "",
               value: (currentSupply * currentPrice * luna2Price).toString(),
               isCurrency: true,
               decimals: 2,
-              /*variation: parseFloat(
-                (
-                  parseFloat(recent?.weekly?.volumeIncreasedRate || "0") * 100
-                ).toFixed(2)
-              ),*/
             },
  
           ]}
@@ -307,62 +276,32 @@ const Dashboard = () => {
           data={[
             {
               label: "Dev Donations",
-              //value: recent?.daily?.fee
-              //  ? `${lookup(recent?.daily?.fee, USDC)}`
-              //  : "",
               value: (taxCollected * 0.25 * luna2Price).toString(),
               isCurrency: true,
               decimals: 2,
-              /*variation: parseFloat(
-                (
-                  parseFloat(recent?.daily?.feeIncreasedRate || "0") * 100
-                ).toFixed(2)
-              ),*/
             },
             {
               label: "LUNC Burned",
-              //value: recent?.daily?.fee
-              //  ? `${lookup(recent?.daily?.fee, USDC)}`
-              //  : "",
               value: ((taxCollected * 0.25 * luna2Price)/luna1Price).toString(),
               isCurrency: false,
               decimals: 4,
-              /*variation: parseFloat(
-                (
-                  parseFloat(recent?.daily?.liquidityIncreasedRate || "0") * 100
-                ).toFixed(2)
-              ),*/
             },
             {
               label: "Raffle Winnings",
-              //value: recent?.daily?.liquidity
-              //  ? `${lookup(recent?.daily?.liquidity, USDC)}`
-              //  : "",
               value: (taxCollected * 0.25 * luna2Price).toString(),
               isCurrency: true,
               decimals: 2,
-              /*variation: parseFloat(
-                (
-                  parseFloat(recent?.daily?.liquidityIncreasedRate || "0") * 100
-                ).toFixed(2)
-              ),*/
             },
             {
               label: "Tax Collected",
-              //value: recent?.daily?.liquidity
-              //  ? `${lookup(recent?.daily?.liquidity, USDC)}`
-              //  : "",
               value: `${taxCollected * luna2Price}`,
               isCurrency: true,
               decimals: 2,
-              /*variation: parseFloat(
-                (
-                  parseFloat(recent?.daily?.liquidityIncreasedRate || "0") * 100
-                ).toFixed(2)
-              ),*/
             },
           ]}
         />
+
+     {/*Uncomment to see charts rbh*/}
      {/*}   <Row>
           <Card className="left">
             <Row
@@ -466,15 +405,15 @@ const Dashboard = () => {
           </Card>
         </Row>      Uncomment to see charts*/}
 
-        <About_website></About_website>
+        <About_website priceFromParent = {dataForChild[0]}  supplyFromParent = {dataForChild[1]} />
 
         <Footer>
-          <LatestBlock
+          {/*<LatestBlock
             currentHeight={recent?.daily?.height || 0}
             isLoading={!recent?.daily?.height}
-          />
+          /> rbh*/}
           <span>
-            DASHBOARD IS FOR REFERENCE PURPOSES ONLY AND DOES NOT REPRESENT
+            DASHBOARD IS FOR REFERENCE PURPOSES ONLY
           </span>
         </Footer>
       </Container>

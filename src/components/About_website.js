@@ -1,4 +1,6 @@
-function About_website() {
+import React from 'react';
+
+const About_website = ({priceFromParent, supplyFromParent}) => {
 
   return (
     <div>
@@ -115,14 +117,14 @@ function About_website() {
           <div className="stats-section">
             <div className="stats-section__reference">
               <i className="fas fa-dollar-sign"></i>
-              <h3 className="stats-section__reference__title">$0.09 USD</h3>
+              <h3 className="stats-section__reference__title">${priceFromParent.toFixed(4)} USD</h3>
               <p className="stats-section__reference__description">
                 LBUN Price
               </p>
             </div>
             <div className="stats-section__reference">
               <i className="fas fa-coins"></i>
-              <h3 className="stats-section__reference__title">202.3260</h3>
+              <h3 className="stats-section__reference__title">{supplyFromParent.toFixed(4)}</h3>
               <p className="stats-section__reference__description">
                 LBUN Supply
               </p>
