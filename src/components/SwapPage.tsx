@@ -108,7 +108,7 @@ const Page: FC<PropsWithChildren<Props>> = ({
       })
 
     return
-  }, []) //autoRefreshTicker
+  }, [autoRefreshTicker])
 
   return (
     <article className={styles.article}>

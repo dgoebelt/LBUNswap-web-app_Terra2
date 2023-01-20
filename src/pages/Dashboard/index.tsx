@@ -146,15 +146,6 @@ const Dashboard = () => {
   let [luna1Price, setLuna1Price] = useState(0)
   let [luna2Price, setLuna2Price] = useState(0)
 
-  /*useEffect(() => {
-    const timerId = setTimeout(() => {
-      setTableVisibleFlag(true)
-    }, 1000)
-    return () => {
-      clearTimeout(timerId)
-    }
-  }, [])*/
-
   useEffect(() => {
     const timerId = setInterval(() => {
       if (
@@ -167,7 +158,7 @@ const Dashboard = () => {
     return () => {
       clearInterval(timerId)
     }
-  }, [])
+  }, [autoRefreshTicker])
 
   useEffect(() => {
     const url =
@@ -203,7 +194,7 @@ const Dashboard = () => {
             setLuna1Price(Number(apiCoinGeckoLunc["terra-luna"]["usd"]))    
       })
     return
-  }, []) //autoRefreshTicker
+  }, [autoRefreshTicker])
 
   const selectedVolumeChart = useMemo(() => {
     return (chart || []).slice(0, selectedVolumeLength)
