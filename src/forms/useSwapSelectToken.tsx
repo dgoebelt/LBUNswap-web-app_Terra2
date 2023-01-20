@@ -7,7 +7,6 @@ import SwapCard from "./../components/SwapCard"
 import MESSAGE from "../lang/MESSAGE.json"
 import usePairs, { lpTokenInfos, Pair, tokenInfos } from "../rest/usePairs"
 import { Type } from "pages/Swap"
-import useAPI from "rest/useAPI"
 
 export interface Config {
   /** Current value */
@@ -45,7 +44,7 @@ const removeDuplicatesFilter = (
   array: string[]
 ) => array.indexOf(value) === index
 
-export default (config: Config, pairs: Pair[], type: string) => {
+export default (config: Config, type: string) => {
   //console.log(Error('Trace me... who called me...'))
   const { isLoading: isPairLoading } = usePairs()
 
@@ -70,85 +69,6 @@ export default (config: Config, pairs: Pair[], type: string) => {
 
   const [addressList, setAddressList] = useState<string[]>([])
   const [availableAddressList, setAvailableAddressList] = useState<string[]>()
-  //const { loadSwappableTokenAddresses } = useAPI()
-
-  useEffect(() => {
-    if (type === Type.SWAP || type === Type.PROVIDE) {
-      setAddressList(
-        pairs
-          .flatMap((pair) => pair.pair)
-          .map((tokenInfo) => tokenInfo.contract_addr)
-          .filter(removeDuplicatesFilter)
-      )
-    } else {
-      setAddressList(
-        (
-          pairs
-            .map((pair) => tokenInfos.get(pair.liquidity_token)?.contract_addr)
-            .filter((item) => !!item) as string[]
-        ).filter(removeDuplicatesFilter)
-      )
-    }
-  }, [pairs, type, isPairLoading])
-
-  useEffect(() => {
-    let isAborted = false
-    setAvailableAddressList([])
-
-    const fetchAvailableAddressList = async () => {
-      if (!oppositeValue) {
-        setAvailableAddressList(addressList)
-        return
-      }
-/*
-      if (type === Type.SWAP) {
-        const res = await loadSwappableTokenAddresses(oppositeValue)
-        if (Array.isArray(res)) {
-          if (!isAborted) {
-            setAvailableAddressList(res)
-          }
-        }
-        return
-      } */
-
-      if (type === Type.PROVIDE) {
-        const assetItemMap: Set<string> = new Set<string>()
-        pairs.forEach((pair) => {
-          if (
-            oppositeValue === pair.pair[0].contract_addr &&
-            !assetItemMap.has(pair.pair[1].contract_addr)
-          ) {
-            assetItemMap.add(pair.pair[1].contract_addr)
-          }
-
-          if (
-            oppositeValue === pair.pair[1].contract_addr &&
-            !assetItemMap.has(pair.pair[0].contract_addr)
-          ) {
-            assetItemMap.add(pair.pair[0].contract_addr)
-          }
-        })
-
-        if (!isAborted) {
-          setAvailableAddressList(Array.from(assetItemMap.values()))
-        }
-        return
-      }
-      setAvailableAddressList(addressList)
-    }
-
-    fetchAvailableAddressList()
-
-    return () => {
-      isAborted = true
-    }
-  }, [
-    /*addressList,
-    oppositeValue,
-    pairs,
-    type,
-    isPairLoading,*/
-  ]) //loadSwappableTokenAddresses
 
   const assetList = useMemo<SwapTokenAsset[] | undefined>(() => {
     if (!availableAddressList || !addressList) {
@@ -198,26 +118,6 @@ export default (config: Config, pairs: Pair[], type: string) => {
     isOpen,
     button: <SwapSelectToken {...select} />,
     assets: "" //replaced with empty string
-    /*(
-      <Modal
-        role="modal"
-        isOpen={isOpen}
-        open={() => setIsOpen(true)}
-        close={() => setIsOpen(false)}
-        isCloseBtn={true}
-      >
-        <SwapCard logoTitle={MESSAGE.Form.Button.SelectToken}>
-          <SwapTokens
-            {...config}
-            isFrom={isFrom}
-            selected={selected}
-            onSelect={handleSelect}
-            type={type}
-            assetList={assetList}
-          />
-        </SwapCard>
-    </Modal> 
-    ), rbh */
   } 
  
 }

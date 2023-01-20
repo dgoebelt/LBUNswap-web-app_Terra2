@@ -79,7 +79,7 @@ const Warning = {
 
 const SwapForm = ({ type, tabs }: { type: Type; tabs: TabViewProps }) => {
   const connectModal = useConnectModal()
-  const [isWarningModalConfirmed, setIsWarningModalConfirmed] = useState(false)
+  const [isWarningModalConfirmed, setIsWarningModalConfirmed] = useState(true)
   const warningModal = useModal()
 
   const [searchParams, setSearchParams] = useSearchParams()
@@ -114,8 +114,8 @@ const SwapForm = ({ type, tabs }: { type: Type; tabs: TabViewProps }) => {
   }, [slippageSettings])
 
   //const { pairs, isLoading: isPairsLoading } = usePairs()
-  const isPairsLoading = false
-  const pairs = [{"contract":"terra1ulr678u52qwt27dsgxrftthq20a8v8t9s8f3hz5z8s62wsu6rslqyezul4","pair":[{"name":"LUNC Burn Token","symbol":"LBUN","protocol":"LBUN Project","decimals":6,"contract_addr":"terra1ulr678u52qwt27dsgxrftthq20a8v8t9s8f3hz5z8s62wsu6rslqyezul4","icon":"https://raw.githubusercontent.com/lbunproject/LBUNswap-web-app_Terra2/ebcaed74119e206d9b84d3b44c4af00941c67549/public/images/others/LBUN.svg","verified":true},{"name":"uluna","symbol":"Luna","contract_addr":"uluna","icon":"https://raw.githubusercontent.com/terra-money/assets/master/icon/svg/Luna.svg","verified":true,"decimals":6}],"liquidity_token":""}]
+  //const isPairsLoading = false
+  //const pairs = [{"contract":"terra1ulr678u52qwt27dsgxrftthq20a8v8t9s8f3hz5z8s62wsu6rslqyezul4","pair":[{"name":"LUNC Burn Token","symbol":"LBUN","protocol":"LBUN Project","decimals":6,"contract_addr":"terra1ulr678u52qwt27dsgxrftthq20a8v8t9s8f3hz5z8s62wsu6rslqyezul4","icon":"https://raw.githubusercontent.com/lbunproject/LBUNswap-web-app_Terra2/ebcaed74119e206d9b84d3b44c4af00941c67549/public/images/others/LBUN.svg","verified":true},{"name":"uluna","symbol":"Luna","contract_addr":"uluna","icon":"https://raw.githubusercontent.com/terra-money/assets/master/icon/svg/Luna.svg","verified":true,"decimals":6}],"liquidity_token":""}]
   const balanceKey = {
     [Type.SWAP]: BalanceKey.TOKEN,
     [Type.PROVIDE]: BalanceKey.TOKEN,
@@ -130,7 +130,7 @@ const SwapForm = ({ type, tabs }: { type: Type; tabs: TabViewProps }) => {
       [Key.feeSymbol]: LUNA,
       [Key.load]: "",
       [Key.symbol1]: "",
-      [Key.symbol2]: "",
+      [Key.symbol2]: "LBUN",
       [Key.max1]: "",
       [Key.max2]: "",
       [Key.maxFee]: "",
@@ -255,7 +255,6 @@ const SwapForm = ({ type, tabs }: { type: Type; tabs: TabViewProps }) => {
       oppositeValue: to,
       onSelectOpposite: handleToken2Select,
     },
-    pairs,
     type
   )
 
@@ -270,44 +269,8 @@ const SwapForm = ({ type, tabs }: { type: Type; tabs: TabViewProps }) => {
       oppositeValue: from,
       onSelectOpposite: handleToken1Select,
     },
-    pairs,
     type
   )
-
-  const {
-    pairAddress: selectedPairAddress,
-    lpContract,
-    poolSymbol1,
-    poolSymbol2,
-    poolContract1,
-    poolContract2,
-  } = useMemo(() => {
-    if (isPairsLoading) {
-      return {}
-    }
-    const lpTokenInfo = lpTokenInfos.get(from)
-
-    const info1 = type === Type.WITHDRAW ? lpTokenInfo?.[0] : tokenInfo1
-    const info2 = type === Type.WITHDRAW ? lpTokenInfo?.[1] : tokenInfo2
-    const selectedPairs = pairs.find((item) => {
-      return (
-        item.pair.find((s) => s.contract_addr === info1?.contract_addr) &&
-        item.pair.find((s) => s.contract_addr === info2?.contract_addr)
-      )
-    })
-
-    const contract = selectedPairs?.contract || ""
-    const lpContract = selectedPairs?.liquidity_token || ""
-
-    return {
-      pairAddress: contract,
-      lpContract,
-      poolSymbol1: lpTokenInfo?.[0]?.symbol,
-      poolSymbol2: lpTokenInfo?.[1]?.symbol,
-      poolContract1: lpTokenInfo?.[0]?.contract_addr,
-      poolContract2: lpTokenInfo?.[1]?.contract_addr,
-    }
-  }, [isPairsLoading, type, lpTokenInfos, from, tokenInfo1, tokenInfo2, pairs])
 
   const { isLoading: isAutoRouterLoading, profitableQuery } = useTBC({
     from: from,
@@ -317,54 +280,7 @@ const SwapForm = ({ type, tabs }: { type: Type; tabs: TabViewProps }) => {
     slippageTolerance,
   })
 
-  const { result: poolResult, poolLoading } = usePool(
-    selectedPairAddress,
-    formData[Key.symbol1],
-    formData[Key.value1],
-    type,
-    balance1
-  )
-
-  const spread = useMemo(() => {
-    return tokenInfo2 && !isAutoRouterLoading && poolResult?.estimated
-      ? div(
-          minus(poolResult?.estimated, toAmount(formData[Key.value2], to)),
-          poolResult?.estimated
-        )
-      : ""
-  }, [formData, isAutoRouterLoading, poolResult?.estimated, to, tokenInfo2])
-
-  useEffect(() => {
-    const timerId = setTimeout(() => {
-      if (
-        gte(spread, "0.01") &&
-        !warningModal.isOpen &&
-        !isWarningModalConfirmed
-      ) {
-        warningModal.setInfo("", percent(spread))
-        warningModal.open()
-        setIsWarningModalConfirmed(true)
-      }
-    }, 500)
-
-    return () => {
-      clearTimeout(timerId)
-    }
-  }, [isWarningModalConfirmed, spread, warningModal])
-
   const simulationContents = useMemo(() => {
-    if (
-      !(
-        Number(formData[Key.value1]) &&
-        formData[Key.symbol1] &&
-        (type === Type.WITHDRAW
-          ? formData[Key.value2]
-          : Number(formData[Key.value2])) &&
-        (type !== Type.WITHDRAW ? formData[Key.symbol2] : true)
-      )
-    ) {
-      //return []
-    }
 
     if (
       Number(formData[Key.value1]) == 0 ||
@@ -409,28 +325,7 @@ const SwapForm = ({ type, tabs }: { type: Type; tabs: TabViewProps }) => {
                 true
               )} USD = 1 ${formData[Key.symbol1]}`,
       }),
-      ...insertIf(type === Type.PROVIDE, {
-        title: (
-          <TooltipIcon content={Tooltip.Pool.LPfromTx}>LP from Tx</TooltipIcon>
-        ),
-        content: `${lookup(poolResult?.LP, lpContract)} LP`,
-      }),
-      ...insertIf(type === Type.WITHDRAW, {
-        title: "LP after Tx",
-        content: `${lookup(poolResult?.LP, lpContract)} LP`,
-      }),
-      ...insertIf(type !== Type.SWAP, {
-        title: (
-          <TooltipIcon content={Tooltip.Pool.PoolShare}>
-            Pool Share after Tx
-          </TooltipIcon>
-        ),
-        content: (
-          <Count format={(value) => `${percent(value)}`}>
-            {poolResult?.afterPool}
-          </Count>
-        ),
-      }),
+
       {
         title: <TooltipIcon content={Tooltip.Swap.TxFee}>Tx Fee</TooltipIcon>,
         content: (
@@ -439,22 +334,6 @@ const SwapForm = ({ type, tabs }: { type: Type; tabs: TabViewProps }) => {
           </Count>
         ),
       },
-      ...insertIf(type === Type.SWAP && spread !== "", {
-        title: <TooltipIcon content={Tooltip.Swap.Spread}>Spread</TooltipIcon>,
-        content: (
-          <div style={gte(spread, "0.01") ? Warning : undefined}>
-            <Count
-              format={(value) =>
-                `${
-                  (gte(spread, "0.01") ? "Low liquidity " : "") + percent(value)
-                }`
-              }
-            >
-              {spread}
-            </Count>
-          </div>
-        ),
-      }),
       ...insertIf(type === Type.SWAP && profitableQuery?.tokenRoutes?.length, {
         title: (
           <TooltipIcon content="Optimized route for your optimal gain">
@@ -480,9 +359,6 @@ const SwapForm = ({ type, tabs }: { type: Type; tabs: TabViewProps }) => {
     profitableQuery,
     slippageTolerance,
     tokenInfo1?.decimals,
-    poolResult,
-    lpContract,
-    spread,
     tokenInfos,
   ])
 
@@ -623,60 +499,6 @@ const SwapForm = ({ type, tabs }: { type: Type; tabs: TabViewProps }) => {
   }, [watch, watchCallback, profitableQuery])
 
   useEffect(() => {
-    switch (type) {
-      case Type.SWAP:
-        break
-      case Type.PROVIDE:
-        if (poolResult && !poolLoading && tokenInfo2?.contract_addr) {
-          setValue(
-            Key.value2,
-            lookup(poolResult.estimated, tokenInfo2.contract_addr)
-          )
-          setTimeout(() => {
-            trigger(Key.value1)
-            trigger(Key.value2)
-          }, 100)
-          return
-        }
-        break
-      case Type.WITHDRAW:
-        if (
-          poolResult !== undefined &&
-          !poolLoading &&
-          poolSymbol1 &&
-          poolSymbol2
-        ) {
-          const amounts = poolResult.estimated.split("-")
-          setValue(
-            Key.value2,
-            lookup(amounts[0], poolContract1) +
-              poolSymbol1 +
-              " - " +
-              lookup(amounts[1], poolContract2) +
-              poolSymbol2
-          )
-          setTimeout(() => {
-            trigger(Key.value1)
-            trigger(Key.value2)
-          }, 100)
-        }
-    }
-  }, [
-    isReversed,
-    poolLoading,
-    type,
-    tokenInfo1,
-    tokenInfo2,
-    setValue,
-    poolResult,
-    poolSymbol1,
-    poolSymbol2,
-    poolContract1,
-    poolContract2,
-    trigger,
-    profitableQuery,
-  ])
-  useEffect(() => {
     setValue(Key.gasPrice, gasPrice || "")
     setValue(Key.feeValue, gasPrice ? ceil(times(fee?.gas, gasPrice)) : "")
   }, [fee?.gas, gasPrice, setValue])
@@ -750,13 +572,11 @@ const SwapForm = ({ type, tabs }: { type: Type; tabs: TabViewProps }) => {
       terra,
       walletAddress,
       terraExtensionPost,
-      generateContractMessages,
       from,
       to,
       slippageTolerance,
       tokenInfo1,
       profitableQuery,
-      lpContract,
     ]
   )
 

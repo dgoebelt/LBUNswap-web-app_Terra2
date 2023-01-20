@@ -203,7 +203,7 @@ const Dashboard = () => {
             setLuna1Price(Number(apiCoinGeckoLunc["terra-luna"]["usd"]))    
       })
     return
-  }, [autoRefreshTicker])
+  }, []) //autoRefreshTicker
 
   const selectedVolumeChart = useMemo(() => {
     return (chart || []).slice(0, selectedVolumeLength)

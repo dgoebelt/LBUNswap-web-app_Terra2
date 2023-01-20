@@ -125,7 +125,7 @@ const useTBC = (params: Params) => {
         tokenRoutes,
         price: rate.toString()
     }
-  }, [to, debouncedAmount, msgs, simulatedAmounts, autoRefreshTicker]) //end of useMemo
+  }, [to, debouncedAmount, msgs, simulatedAmounts]) //end of useMemo
 
 
   useEffect(() => {
