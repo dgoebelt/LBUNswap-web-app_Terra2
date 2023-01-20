@@ -91,7 +91,7 @@ const SwapForm = ({ type, tabs }: { type: Type; tabs: TabViewProps }) => {
 
   const taxRate = 0.048
 
-  const { generateContractMessages } = useAPI()
+  //const { generateContractMessages } = useAPI()
   const { fee } = useNetwork()
   const walletAddress = useAddress()
   const { post: terraExtensionPost } = useWallet()
@@ -113,10 +113,7 @@ const SwapForm = ({ type, tabs }: { type: Type; tabs: TabViewProps }) => {
     ).toFixed(3)}`
   }, [slippageSettings])
 
-  //const { pairs, isLoading: isPairsLoading } = usePairs()
-  //const isPairsLoading = false
-  //const pairs = [{"contract":"terra1ulr678u52qwt27dsgxrftthq20a8v8t9s8f3hz5z8s62wsu6rslqyezul4","pair":[{"name":"LUNC Burn Token","symbol":"LBUN","protocol":"LBUN Project","decimals":6,"contract_addr":"terra1ulr678u52qwt27dsgxrftthq20a8v8t9s8f3hz5z8s62wsu6rslqyezul4","icon":"https://raw.githubusercontent.com/lbunproject/LBUNswap-web-app_Terra2/ebcaed74119e206d9b84d3b44c4af00941c67549/public/images/others/LBUN.svg","verified":true},{"name":"uluna","symbol":"Luna","contract_addr":"uluna","icon":"https://raw.githubusercontent.com/terra-money/assets/master/icon/svg/Luna.svg","verified":true,"decimals":6}],"liquidity_token":""}]
-  const balanceKey = {
+ const balanceKey = {
     [Type.SWAP]: BalanceKey.TOKEN,
     [Type.PROVIDE]: BalanceKey.TOKEN,
     [Type.WITHDRAW]: BalanceKey.LPSTAKABLE,
@@ -127,7 +124,7 @@ const SwapForm = ({ type, tabs }: { type: Type; tabs: TabViewProps }) => {
       [Key.value1]: "",
       [Key.value2]: "",
       [Key.feeValue]: "",
-      [Key.feeSymbol]: LUNA,
+      [Key.feeSymbol]: ULUNA,
       [Key.load]: "",
       [Key.symbol1]: "",
       [Key.symbol2]: "LBUN",
