@@ -114,7 +114,7 @@ const Footer = styled.div`
 
 const Dashboard = () => {
   const navigate = useNavigate()
-  /*const { api } = useDashboardAPI()
+  const { api } = useDashboardAPI()
   const { data: recent } = useQuery("recent", api.terraswap.getRecent)
   const { data: pairs, isLoading: isPairsLoading } = useQuery(
     "pairs",
@@ -131,7 +131,7 @@ const Dashboard = () => {
     })
 
     return res
-  }) rbh*/
+  })
   const [searchKeyword, setSearchKeyword] = useState("")
   const [selectedVolumeLength, setSelectedVolumeLength] = useState(7)
   const [selectedLiquidityLength, setSelectedLiquidityLength] = useState(7)
@@ -196,7 +196,7 @@ const Dashboard = () => {
     return
   }, [autoRefreshTicker])
 
-  /*const selectedVolumeChart = useMemo(() => {
+  const selectedVolumeChart = useMemo(() => {
     return (chart || []).slice(0, selectedVolumeLength)
   }, [chart, selectedVolumeLength])
 
@@ -236,7 +236,7 @@ const Dashboard = () => {
           return prev + Number(current.volumeUst)
         }, 0) || 0
     )
-  }, [pairs]) rbh*/
+  }, [pairs])
 
   return (
     <Wrapper>
@@ -469,12 +469,12 @@ const Dashboard = () => {
         <About_website></About_website>
 
         <Footer>
-          {/*<LatestBlock
+          <LatestBlock
             currentHeight={recent?.daily?.height || 0}
             isLoading={!recent?.daily?.height}
-      /> rbh*/}
+          />
           <span>
-            DASHBOARD IS FOR REFERENCE PURPOSES ONLY
+            DASHBOARD IS FOR REFERENCE PURPOSES ONLY AND DOES NOT REPRESENT
           </span>
         </Footer>
       </Container>
