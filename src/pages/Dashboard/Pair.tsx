@@ -51,7 +51,7 @@ const ProvideButton = styled(Link)`
 `
 
 const PairPage = () => {
-  const { address = "" } = useParams<{ address: string }>()
+/*  const { address = "" } = useParams<{ address: string }>()
   const { api } = useDashboardAPI()
   const { getFinderUrl } = useNetwork()
 
@@ -73,9 +73,11 @@ const PairPage = () => {
 
   const { txs: transactions } = useMemo(() => {
     return transactionData || { txs: [], totalCount: 0 }
-  }, [transactionData])
+  }, [transactionData]) rbh*/
 
-  return (
+  return (<div></div>)
+
+  {/*return (
     <Wrapper>
       <Container>
         <div
@@ -556,8 +558,8 @@ const PairPage = () => {
           </Card>
         </Row>
       </Container>
-    </Wrapper>
-  )
+              </Wrapper> 
+  )rbh*/}
 }
 
 export default PairPage

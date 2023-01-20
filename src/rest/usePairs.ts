@@ -44,7 +44,7 @@ interface TokenResult {
 
 export let tokenInfos: Map < string, TokenInfo >  = new Map < string, TokenInfo > ([
   [
-      LUNA, {
+      ULUNA, {
           contract_addr: ULUNA,
           symbol: LUNA,
           name: ULUNA,
@@ -55,7 +55,7 @@ export let tokenInfos: Map < string, TokenInfo >  = new Map < string, TokenInfo 
   ],
 ])
 
-tokenInfos.set("LBUN", {
+tokenInfos.set("terra1ulr678u52qwt27dsgxrftthq20a8v8t9s8f3hz5z8s62wsu6rslqyezul4", {
 "name": "LUNC Burn Token",
 "symbol": "LBUN",
 "decimals": 6,

@@ -312,8 +312,11 @@ const SwapForm = ({ type, tabs }: { type: Type; tabs: TabViewProps }) => {
         content:
           formData[Key.symbol2] === "LBUN"
             ? `$${formatMoney(
-                Number(profitableQuery?.price) *
-                  Number(profitableQuery?.lunaUsdPrice),
+                //Number(profitableQuery?.price) *
+                //  Number(profitableQuery?.lunaUsdPrice),
+              (Number(formData[Key.value1]) *
+                Number(profitableQuery?.lunaUsdPrice)) /
+                Number(formData[Key.value2]),
                 4,
                 true
               )} USD = 1 ${formData[Key.symbol2]}`
