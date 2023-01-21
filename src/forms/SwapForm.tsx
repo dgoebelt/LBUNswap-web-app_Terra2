@@ -279,12 +279,11 @@ const SwapForm = ({ type, tabs }: { type: Type; tabs: TabViewProps }) => {
 
   const simulationContents = useMemo(() => {
 
-    if (
-      Number(formData[Key.value1]) == 0 ||
-      Number(formData[Key.value2]) == 0
-    ) {
+
+    if (isNaN(Number(formData[Key.value1])) || isNaN(Number(formData[Key.value2]))) {
       return []
     }
+
 
     return [
       ...insertIf(type === Type.SWAP, {
@@ -783,7 +782,7 @@ const SwapForm = ({ type, tabs }: { type: Type; tabs: TabViewProps }) => {
                 }}
               >
                 <p style={{color: "#000"}}>
-                  The displaying number is the simulated result and can be
+                  The displayed number is the simulated result and can be
                   different from the actual swap rate. Trade at your own risk.
                 </p>
               </div>

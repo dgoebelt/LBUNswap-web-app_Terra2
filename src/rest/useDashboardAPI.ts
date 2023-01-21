@@ -97,6 +97,7 @@ const useDashboardAPI = () => {
           throw Error("no data")
         },
         async getRecent() {
+          return undefined //do not use api
           const res = await axios.get<{ daily: Recent; weekly: Recent }>(
             `${dashboardBaseUrl}/terraswap/recent`
           )
@@ -124,6 +125,7 @@ const useDashboardAPI = () => {
           throw Error("no data")
         },
         async getRecent(address: string) {
+          return undefined //do not use api
           const res = await axios.get<{ daily: Recent; weekly: Recent }>(
             `${dashboardBaseUrl}/pairs/${address}/recent`
           )

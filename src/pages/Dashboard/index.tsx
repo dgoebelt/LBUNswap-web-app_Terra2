@@ -203,18 +203,21 @@ const Dashboard = () => {
   }, [chart, selectedLiquidityLength])
 
   const topLiquidity = useMemo(() => {
+    return undefined //do not use api
     return pairs
       ?.sort((a, b) => Number(b.liquidityUst) - Number(a.liquidityUst))
       .slice(0, 5)
   }, [pairs])
 
   const topTrading = useMemo(() => {
+    return undefined //do not use api
     return pairs
       ?.sort((a, b) => Number(b.volumeUst) - Number(a.volumeUst))
       .slice(0, 5)
   }, [pairs])
 
   const restLiquidityUst = useMemo(() => {
+    return undefined //do not use api
     return (
       pairs
         ?.sort((a, b) => Number(b.liquidityUst) - Number(a.liquidityUst))
@@ -226,6 +229,7 @@ const Dashboard = () => {
   }, [pairs])
 
   const restTradingUst = useMemo(() => {
+    return undefined //do not use api
     return (
       pairs
         ?.sort((a, b) => Number(b.volumeUst) - Number(a.volumeUst))
@@ -413,8 +417,10 @@ const Dashboard = () => {
             isLoading={!recent?.daily?.height}
           /> rbh*/}
           <span>
-            DASHBOARD IS FOR REFERENCE PURPOSES ONLY
+            DASHBOARD IS FOR REFERENCE PURPOSES ONLY          
           </span>
+
+          <a  className="main-header-navbar__nav__link" href = "mailto: lbunproject@gmail.com">Contact info: lbunproject@gmail.com</a>
         </Footer>
       </Container>
     </Wrapper>
