@@ -51,7 +51,7 @@ export const socialMediaList = [
   {
     icon: iconDocuments,
     iconLight: iconDocumentsLight,
-    href: "https://lbunproject.github.io/LBUN_whitepaper_terra2.github.io/?page=1",
+    href: "https://lbunproject.github.io/LBUN_whitepaper_terra2/",
     title: "Documents",
   },
 ]

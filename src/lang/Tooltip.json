@@ -4,7 +4,9 @@
     "Fee": "Value of transaction fee paid in the last 24 hours",
     "MarketCap": "Total value of all assets held by users and liquidity pools",
     "TVL": "Value of all collateral",
-    "CollateralRatio": "(Total collateral value) ÷ (Total minted asset value)"
+    "CollateralRatio": "(Total collateral value) ÷ (Total minted asset value)",
+    "Raffle": "The estimated total winnings at 100K LBUN supply is about $10M based on 1.2% of transaction volume. Weekly payouts will be small compared to the total.",
+    "Odds": "Chance of winning: Top 40% of wallets = 40%, next 30% of wallets = 30%, next 20% of wallets = 20%, smallest 10% of wallets = 10%."
   },
   "Chart": {
     "Liquidity": "Total asset value in all liquidity pools",

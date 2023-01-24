@@ -1,4 +1,6 @@
 import React from 'react';
+import { TooltipIcon } from "components/Tooltip"
+import Tooltip from "lang/Tooltip.json"
 
 const About_website = ({priceFromParent, supplyFromParent}) => {
 
@@ -37,7 +39,7 @@ const About_website = ({priceFromParent, supplyFromParent}) => {
           <nav className="main-header-navbar">
             <ul className="main-header-navbar__nav">
               <li className="main-header-navbar__nav__item">
-                <a href="https://lbunproject.github.io/LBUN_whitepaper_terra2.github.io/?page=1" className="main-header-navbar__nav__link">
+                <a href="https://lbunpaperterra2.netlify.app/" className="main-header-navbar__nav__link">
                   Whitepaper
                 </a>
               </li>
@@ -54,6 +56,11 @@ const About_website = ({priceFromParent, supplyFromParent}) => {
               <li className="main-header-navbar__nav__item">
                 <a href="#team" className="main-header-navbar__nav__link">
                   Team
+                </a>
+              </li>
+              <li className="main-header-navbar__nav__item">
+                <a href="https://terrasco.pe/mainnet/address/terra1ulr678u52qwt27dsgxrftthq20a8v8t9s8f3hz5z8s62wsu6rslqyezul4" className="main-header-navbar__nav__link">
+                  Explorer
                 </a>
               </li>
             </ul>
@@ -98,7 +105,7 @@ const About_website = ({priceFromParent, supplyFromParent}) => {
             </div>
             <div className="stats-section__reference">
               <i className="fas fa-wallet"></i>
-              <h3 className="stats-section__reference__title">5</h3>
+              <h3 className="stats-section__reference__title">6</h3>
               <p className="stats-section__reference__description">
                 Community Wallets
               </p>
@@ -152,14 +159,16 @@ const About_website = ({priceFromParent, supplyFromParent}) => {
           </div>
 
           <div className="benefits-section">
+             <TooltipIcon content={Tooltip.Dashboard.Raffle}>
             <h2 className="benefits-section__title">
-              Participate in weekly <span>Raffles </span> to win a portion of{" "}
-              <span>$10M </span>in rewards!
+              Participate in weekly <span>Raffles </span> to win rewards based on buy & sell <span>transactions </span> durning that week!
             </h2>
+            </TooltipIcon>
+            <TooltipIcon content={Tooltip.Dashboard.Odds}>
             <p className="benefits-section__description">
-              Each week a lucky community member (must hold LBUN in wallet) will
-              win 1.2% of all buy & sell orders.
+              Must hold LBUN in wallet (any amount), but odds of winning increase when more LBUN is held.
             </p>
+            </TooltipIcon>
           </div>
         </section>
 
@@ -234,7 +243,7 @@ const About_website = ({priceFromParent, supplyFromParent}) => {
                 1. Each transaction provides for a 1.2% burn
                 <br></br>
                 <br></br>
-                2. $8M raised for buying then burning LUNC
+                2. Potential for $8M for burning LUNC @ 100K LBUN supply
                 <br></br>
                 <br></br>
                 3. Burn conducted weekly with verification
@@ -251,7 +260,7 @@ const About_website = ({priceFromParent, supplyFromParent}) => {
                 Raffle Prizes
               </h3>
               <p className="grow-profit-article__content__description">
-                1. $10M in prizes generated from 1.2% tax
+                1. Potential for $10M in prizes @ 100K LBUN supply
                 <br></br>
                 <br></br>
                 2. Drawing conducted weekly (after LUNC burn)
