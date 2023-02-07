@@ -250,7 +250,7 @@ const getOptions = (
                   ? tickValue
                   : undefined,
             },
-            gridLines: { color: "#f0f0f0" },
+            gridLines: { color: "#C3C3C399" },
           },
         ],
         yAxes: [
@@ -262,7 +262,7 @@ const getOptions = (
                 return formatMoney(Number(value), 1)
               },
             },
-            gridLines: { color: "#f0f0f0" },
+            gridLines: { color: "#C3C3C399" },
           },
         ],
       },

@@ -16,14 +16,14 @@ import Select from "components/Select"
 import container from "components/Container"
 
 import Summary from "./Summary"
+import { Data } from "./Data"
 import LatestBlock from "components/LatestBlock"
 import Tooltip from "components/Tooltip"
 import Loading from "components/Loading"
 import { USDC } from "constants/constants"
 
-import About_website from "components/About_website"
-
-
+import AboutWebsiteMain from "components/AboutWebsiteMain"
+import AboutWebsiteHeader from "components/AboutWebsiteHeader"
 
 const Wrapper = styled(container)`
   width: 100%;
@@ -115,12 +115,13 @@ const Footer = styled.div`
 const Dashboard = () => {
   const navigate = useNavigate()
   const { api } = useDashboardAPI()
-  const { data: recent } = useQuery("recent", api.terraswap.getRecent)
+  //const { data: recent } = useQuery("recent", api.terraswap.getRecent)
   const { data: pairs, isLoading: isPairsLoading } = useQuery(
     "pairs",
     api.pairs.list
   )
-  const { data: chart } = useQuery("terraswap", async () => {
+
+  /*const { data: chart } = useQuery("terraswap", async () => {
     const now = Date.now()
     const fromDate = new Date(now - 30 * 24 * 60 * 60 * 1000)
 
@@ -129,10 +130,21 @@ const Dashboard = () => {
       from: fromDate.toISOString().split("T")[0],
       to: new Date(now).toISOString().split("T")[0],
     })
-
     return res
-  })
-  const [selectedVolumeLength, setSelectedVolumeLength] = useState(7)
+  })*/
+
+  /*const url4 =
+    "https://lbunchartterra2.netlify.app/2wk_1hr.json"
+  fetch(url4)
+    .then((response) => response.text())
+    .then((text) => {
+    console.log(text)
+    const apiChartLbunTerra2 = JSON.parse(text)
+    const chart = Data.map((data) => data)
+})*/
+
+  const chart = Data.map((data) => data)
+  const [selectedVolumeLength, setSelectedVolumeLength] = useState(3)
   const [selectedLiquidityLength, setSelectedLiquidityLength] = useState(7)
 
   const [autoRefreshTicker, setAutoRefreshTicker] = useState(false)
@@ -146,10 +158,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     const timerId = setInterval(() => {
-      if (
-        window?.navigator?.onLine &&
-        window?.document?.hasFocus()
-      ) {
+      if (window?.navigator?.onLine && window?.document?.hasFocus()) {
         setAutoRefreshTicker((current) => !current)
       }
     }, 30000)
@@ -172,35 +181,38 @@ const Dashboard = () => {
         setTaxCollected(Number(tbcData.data.tax_collected) / 1000000)
       })
 
-      const url2 =
-        "https://api.coingecko.com/api/v3/simple/price?ids=terra-luna-2&vs_currencies=usd"
-      fetch(url2)
-        .then((response) => response.text())
-        .then((text) => {
-          console.log(text)
-          const apiCoinGeckoLuna = JSON.parse(text)
-          setLuna2Price(Number(apiCoinGeckoLuna["terra-luna-2"]["usd"]))     
-        })
-
-      const url3 =
-          "https://api.coingecko.com/api/v3/simple/price?ids=terra-luna&vs_currencies=usd"
-        fetch(url3)
-          .then((response) => response.text())
-          .then((text) => {
-            console.log(text)
-            const apiCoinGeckoLunc = JSON.parse(text)
-            setLuna1Price(Number(apiCoinGeckoLunc["terra-luna"]["usd"]))    
+    const url2 =
+      "https://api.coingecko.com/api/v3/simple/price?ids=terra-luna-2&vs_currencies=usd"
+    fetch(url2)
+      .then((response) => response.text())
+      .then((text) => {
+        console.log(text)
+        const apiCoinGeckoLuna = JSON.parse(text)
+        setLuna2Price(Number(apiCoinGeckoLuna["terra-luna-2"]["usd"]))
       })
+
+    const url3 =
+      "https://api.coingecko.com/api/v3/simple/price?ids=terra-luna&vs_currencies=usd"
+    fetch(url3)
+      .then((response) => response.text())
+      .then((text) => {
+        console.log(text)
+        const apiCoinGeckoLunc = JSON.parse(text)
+        setLuna1Price(Number(apiCoinGeckoLunc["terra-luna"]["usd"]))
+      })
+
     return
   }, [autoRefreshTicker])
 
   const selectedVolumeChart = useMemo(() => {
-    return (chart || []).slice(0, selectedVolumeLength)
-  }, [chart, selectedVolumeLength])
+    return (chart || []).slice(0, selectedVolumeLength * 24)
+  }, [selectedVolumeLength]) //chart,
 
-  const selectedLiquidityChart = useMemo(() => {
-    return (chart || []).slice(0, selectedLiquidityLength)
-  }, [chart, selectedLiquidityLength])
+  {
+    /*const selectedLiquidityChart = useMemo(() => {
+    return (chart || []).slice(0, selectedLiquidityLength * 24)
+  }, [chart, selectedLiquidityLength])*/
+  }
 
   const topLiquidity = useMemo(() => {
     return undefined //do not use api
@@ -240,73 +252,64 @@ const Dashboard = () => {
     )
   }, [pairs])
 
-
-  const dataForChild = [(currentPrice * luna2Price), currentSupply]
+  const dataForChild = [currentPrice * luna2Price, currentSupply]
 
   return (
     <Wrapper>
       <Container>
+        <AboutWebsiteHeader />
+      </Container>
+
+      <Container>
         <Summary
           data={[
             {
-              label: "LBUN / LUNC",
-              value: ((currentPrice * luna2Price)/luna1Price).toString(),
-              isCurrency: false,
+              label: "LUNC / USD",
+              value: luna1Price.toString(),
+              isCurrency: true,
               decimals: 6,
             },
             {
-              label: "LBUN / USD",
-              value: (currentPrice * luna2Price).toString(),
+              label: "LUNA / USD",
+              value: luna2Price.toString(),
               isCurrency: true,
               decimals: 2,
             },
             {
+              label: "LBUN / LUNC",
+              value: ((currentPrice * luna2Price) / luna1Price).toString(),
+              isCurrency: false,
+              decimals: 6,
+            },
+            {
+              label: "LBUN / LUNA",
+              value: currentPrice.toString(),
+              isCurrency: false,
+              decimals: 6,
+            },
+            /*{
               label: "Circulating Supply",
               value: `${currentSupply}`,
               isCurrency: false,
               decimals: 6,
             },
             {
+              label: "LUNA Reserve",
+              value: (currentReserve).toString(),
+              isCurrency: false,
+              decimals: 2,
+            },
+            {
               label: "Market Cap",
               value: (currentSupply * currentPrice * luna2Price).toString(),
               isCurrency: true,
               decimals: 2,
-            },
- 
+            }, */
           ]}
         />
 
-      <Summary
-          data={[
-            {
-              label: "Dev Donations",
-              value: (taxCollected * 0.25 * luna2Price).toString(),
-              isCurrency: true,
-              decimals: 2,
-            },
-            {
-              label: "LUNC Burned",
-              value: ((taxCollected * 0.25 * luna2Price)/luna1Price).toString(),
-              isCurrency: false,
-              decimals: 4,
-            },
-            {
-              label: "Raffle Winnings",
-              value: (taxCollected * 0.25 * luna2Price).toString(),
-              isCurrency: true,
-              decimals: 2,
-            },
-            {
-              label: "Tax Collected",
-              value: `${taxCollected * luna2Price}`,
-              isCurrency: true,
-              decimals: 2,
-            },
-          ]}
-        />
-
-     {/*Uncomment to see charts rbh*/}
-     {/*}   <Row>
+        {/*Uncomment to see charts rbh */}
+        <Row>
           <Card className="left">
             <Row
               style={{
@@ -318,14 +321,14 @@ const Dashboard = () => {
               <div style={{ flex: "unset", fontSize: 18, color: "#0d0d2b" }}>
                 <b>LBUN Price</b>
               </div>
-              <div style={{ flex: "unset"}}>
+              <div style={{ flex: "unset" }}>
                 <Select
                   value={selectedVolumeLength}
                   onChange={(e) =>
                     setSelectedVolumeLength(parseInt(e?.target?.value, 10))
                   }
                 >
-                  {[30, 15, 7].map((value) => (
+                  {[14, 7, 3, 1].map((value) => (
                     <option key={value} value={value}>
                       {value} days
                     </option>
@@ -333,8 +336,15 @@ const Dashboard = () => {
                 </Select>
               </div>
             </Row>
-            <div style={{ fontSize: 18, fontWeight: 700, marginBottom: 14, color: "#0d0d2b" }}>
-              {formatMoney(
+            <div
+              style={{
+                fontSize: 18,
+                fontWeight: 700,
+                marginBottom: 14,
+                color: "#0d0d2b",
+              }}
+            >
+              {/*{formatMoney(
                 Number(
                   lookup(
                     selectedVolumeChart.reduce((prev, current) => {
@@ -343,8 +353,9 @@ const Dashboard = () => {
                     USDC
                   )
                 )
-              )}
-              &nbsp;USDC
+                  )} */}
+              ${(currentPrice * luna2Price).toFixed(2)}
+              &nbsp;USD
             </div>
             <Chart
               type="line"
@@ -357,7 +368,7 @@ const Dashboard = () => {
               })}
             />
           </Card>
-          <Card className="right">
+          {/*<Card className="right">
             <Row
               style={{
                 marginBottom: 10,
@@ -406,21 +417,58 @@ const Dashboard = () => {
                 }
               })}
             />
-          </Card>
-        </Row>      Uncomment to see charts*/}
+          </Card> Uncomment to see charts*/}
+        </Row>
+        <Summary
+          data={[
+            {
+              label: "Dev Donations",
+              value: (taxCollected * 0.25 * luna2Price).toString(),
+              isCurrency: true,
+              decimals: 2,
+            },
+            {
+              label: "LUNC Burned",
+              value: (
+                (taxCollected * 0.25 * luna2Price) /
+                luna1Price
+              ).toString(),
+              isCurrency: false,
+              decimals: 4,
+            },
+            {
+              label: "Raffle Winnings",
+              value: (taxCollected * 0.25 * luna2Price).toString(),
+              isCurrency: true,
+              decimals: 2,
+            },
+            {
+              label: "Tax Collected",
+              value: `${taxCollected * luna2Price}`,
+              isCurrency: true,
+              decimals: 2,
+            },
+          ]}
+        />
 
-        <About_website priceFromParent = {dataForChild[0]}  supplyFromParent = {dataForChild[1]} />
+        <AboutWebsiteMain
+          priceFromParent={dataForChild[0]}
+          supplyFromParent={dataForChild[1]}
+        />
 
         <Footer>
           {/*<LatestBlock
             currentHeight={recent?.daily?.height || 0}
             isLoading={!recent?.daily?.height}
           /> rbh*/}
-          <span>
-            DASHBOARD IS FOR REFERENCE PURPOSES ONLY          
-          </span>
+          <span>DASHBOARD IS FOR REFERENCE PURPOSES ONLY</span>
 
-          <a  className="main-header-navbar__nav__link" href = "mailto: lbunproject@gmail.com">Contact info: lbunproject@gmail.com</a>
+          <a
+            className="main-header-navbar__nav__link"
+            href="mailto: lbunproject@gmail.com"
+          >
+            Contact info: lbunproject@gmail.com
+          </a>
         </Footer>
       </Container>
     </Wrapper>

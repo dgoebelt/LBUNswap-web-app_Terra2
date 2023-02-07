@@ -174,12 +174,17 @@ const Sidebar = () => {
           <NavLink
             to="/"
             className={location.pathname?.includes("/pairs") ? "active" : ""}
-            onClick={() => close()}>
+            onClick={() => close()}
+          >
             Project
           </NavLink>
           <NavLink to="/swap" onClick={() => close()}>
             Swap
           </NavLink>
+          <br></br>
+          <a href="https://lbunspaces.netlify.app/" onClick={() => close()}>
+            Spaces Slides
+          </a>
           <div style={{ height: 25 }} />
           <ChangeVersionButton />
         </div>
