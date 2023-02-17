@@ -205,8 +205,27 @@ const Dashboard = () => {
   }, [autoRefreshTicker])
 
   const selectedVolumeChart = useMemo(() => {
+    if (luna2Price > 0) {
+      const timeNow = new Date(new Date().getTime()).toISOString()
+      //console.log(timeNow)
+      chart.splice(0, 0, {
+        timestamp: String(timeNow),
+        volumeUst: (currentPrice * luna2Price * 1000000).toFixed(2).toString(),
+        liquidityUst: "14259822",
+      })
+    }
+
     return (chart || []).slice(0, selectedVolumeLength * 24)
-  }, [selectedVolumeLength]) //chart,
+  }, [chart, selectedVolumeLength]) //chart,
+  /*const updateLastPoint = useMemo(() => {
+  //const timeNow = new Date(Math.trunc(parseInt(String(Date.now()),10)/1000)*1000)
+  //const timeNow = Math.round(new Date().getTime()/1000)
+  const timeNow =(new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString())
+  console.log(timeNow)
+  chart.splice(0,1, {timestamp: String(timeNow), volumeUst: ((currentPrice * luna2Price*1000000).toFixed(2)).toString(), liquidityUst: "14259822"})
+  console.log((currentPrice * luna2Price).toFixed(2))
+  return
+  }, [currentPrice, luna2Price, selectedVolumeLength] )*/
 
   {
     /*const selectedLiquidityChart = useMemo(() => {

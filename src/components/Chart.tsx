@@ -224,7 +224,7 @@ const getOptions = (
         displayColors: false,
         callbacks: {
           title: ([{ value }]: ChartJS.ChartTooltipItem[]) =>
-            `$${formatMoney(Number(value))}`,
+            `$${formatMoney(Number(value), 2, true)}`,
           label: getLabel,
         },
       },
@@ -232,6 +232,11 @@ const getOptions = (
         xAxes: [
           {
             type: "time",
+            time: {
+              displayFormats: {
+                hour: "MMM DD", //"hA"
+              },
+            },
             ticks: {
               source: "data" as const,
               // autoSkip: true,
@@ -259,7 +264,7 @@ const getOptions = (
               fontColor: "#0d0d2b",
               fontSize: 11,
               callback(value: any) {
-                return formatMoney(Number(value), 1)
+                return `$${formatMoney(Number(value), 2, true)}`
               },
             },
             gridLines: { color: "#C3C3C399" },
@@ -286,7 +291,12 @@ const getLabel = (
     (typeof index === "number" && path([0, "data", index], datasets)) || 0
   const t = point && typeof point !== "number" ? point.t : point
   return t instanceof Date
-    ? t.toLocaleDateString()
+    ? t.toLocaleTimeString([], {
+        month: "numeric",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      }) //year: 'numeric',
     : typeof t === "number"
     ? `$${formatMoney(t / 1e6)}`
     : ""
